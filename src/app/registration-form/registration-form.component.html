@@ -1,0 +1,98 @@
+<div class="form-container col container d-flex">
+    <div class="aside col-2 d-flex flex-column">
+        <div class="container-top d-flex justify-content-center">
+            <div class="arrow d-flex justify-content-center align-items-center">
+                <i class="arrow-up fas fa-arrow-up"></i>
+            </div>
+        </div>
+        <div class="container-center d-flex flex-column justify-content-center align-items-center">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+        <div class="container-bottom d-flex justify-content-center">
+            <div class="arrow d-flex justify-content-center align-items-center">
+                <i class="arrow-up fas fa-arrow-down"></i>
+            </div>
+        </div>
+    </div>
+    <form action="" class="form col-10 d-flex flex-column">
+        <div class="form-title col-12 d-flex">
+            <p>Basic Details</p>
+        </div>
+        <div class="separator"></div>
+        <div class="form-fields col-12 d-flex flex-wrap align-items-center">
+            <div class="input-section col-12 d-flex justify-content-between">
+                <div class="col-6 field-name">
+                    <mat-form-field class="col-12">
+                        <input matInput placeholder="First name" value="">
+                    </mat-form-field>
+                </div>
+                <div class="col-6 field-name">
+                    <mat-form-field class="col-12">
+                        <input matInput placeholder="Last name" value="">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="input-section col-12 d-flex justify-content-between">
+                <div class="col-6 field-name">
+                    <mat-form-field class="col-12">
+                        <input matInput placeholder="Email ID" value="">
+                        <mat-icon matSuffix class="material-icons">done</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="col-6 field-name">
+                    <mat-form-field class="col-12">
+                        <input matInput placeholder="Your User ID" value="">
+                        <mat-icon matSuffix class="material-icons">lock</mat-icon>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="input-section col-12 d-flex justify-content-between">
+                <div class="col-6 field-name">
+                    <mat-form-field class="col-12">
+                        <mat-label>Country</mat-label>
+                        <mat-select>
+                            <mat-option value=""></mat-option>
+                            <mat-option value="India">India</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="field-name location col-6 d-flex justify-content-between">
+                    <mat-form-field class="col-6">
+                        <mat-label>State</mat-label>
+                        <mat-select>
+                            <mat-option value=""></mat-option>
+                            <mat-option value="Maharashtra">Maharashtra</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-6">
+                        <mat-label>City</mat-label>
+                        <mat-select>
+                            <mat-option value=""></mat-option>
+                            <mat-option value="Pune">Pune</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="input-section col-12 d-flex justify-content-between">
+                <div class="col-6 field-name">
+                    <mat-form-field class="col-12">
+                        <input matInput placeholder="Phone Number" value="">
+                    </mat-form-field>
+                </div>
+                <div class="col-6 field-name">
+                    <mat-form-field class="col-12">
+                        <input matInput placeholder="Reference Code" value="">
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="separator"></div>
+        <div class="form-controls col-12 d-flex align-items-center justify-content-between">
+            <button type="button" mat-button class="reset-btn">Reset All</button>
+            <button type="button" mat-raised-button color="primary">Continue</button>
+        </div>
+    </form>
+</div>
