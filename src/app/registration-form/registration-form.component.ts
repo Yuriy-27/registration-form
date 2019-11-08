@@ -1,8 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { FormStep } from '../../assets/shared/form-step';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Country, State, City, CountriesService } from '../../assets/shared/countries.service';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogWindowComponent } from '../dialog-window/dialog-window.component';
 
 
 
@@ -30,7 +32,7 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
   cities: ReadonlyArray<City>;
   registrationForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private countriesService: CountriesService) {
+  constructor(private fb: FormBuilder, private countriesService: CountriesService, public dialog: MatDialog) {
     this.currentStep = this.steps[0];
     this.countries = this.countriesService.getCountries();
     this.states = [];
@@ -47,6 +49,22 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
     if (this.countryControlSubscription) {
       this.countryControlSubscription.unsubscribe();
     }
+    if (this.stateControlSubscription) {
+      this.stateControlSubscription.unsubscribe();
+    }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogWindowComponent, {
+      height: '200px',
+      width: '300px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.registrationForm.reset();
+      }
+    });
   }
 
   private buildForm() {
@@ -56,9 +74,9 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
       // tslint:disable-next-line:max-line-length
       email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,4}'), Validators.maxLength(50)]],
       userId: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30), Validators.pattern('[a-zA-Z_]+')]],
-      country: [''],
-      state: [''],
-      city: [''],
+      country: ['', Validators.required],
+      state: ['', Validators.required],
+      city: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/^380\d{2} \d{3}-\d{2}-\d{2}$/)]],
       refCode: ['', Validators.pattern('[a-zA-Z0-9]{10}')]
     });
@@ -119,21 +137,13 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
     });
 
     this.stateControlSubscription = this.registrationForm.controls.state.valueChanges.subscribe((selectedState) => {
-      console.log(selectedState);
       const countryId = this.registrationForm.controls.country.value;
-      console.log(countryId);
       if (selectedState == null && countryId == null) {
         this.registrationForm.controls.city.setValue(null);
       } else {
         this.cities = this.countriesService.getCities(countryId, selectedState);
-        console.log(this.cities);
       }
     });
-
-
-    // stateControlSubscription: Subscription;
-
-    // this.registrationForm.value.country.id
   }
 
   changeStep(param) {
@@ -148,21 +158,5 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
       this.currentStep = this.steps[this.steps.length - 1];
     }
   }
-
 }
 
-// @Component({
-//   selector: 'dialog-overview-example-dialog',
-//   templateUrl: 'dialog-overview-example-dialog.html',
-// })
-// export class DialogOverviewExampleDialog {
-
-//   constructor(
-//     public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
-//     @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-//   onNoClick(): void {
-//     this.dialogRef.close();
-//   }
-
-// }

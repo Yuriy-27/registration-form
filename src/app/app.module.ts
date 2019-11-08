@@ -9,14 +9,18 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToUpperCaseDirective } from './registration-form/upperCase.directive';
+import {MatDialogModule} from '@angular/material/dialog';
+import { DialogWindowComponent } from './dialog-window/dialog-window.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     RegistrationFormComponent,
-    ToUpperCaseDirective
+    ToUpperCaseDirective,
+    DialogWindowComponent
   ],
+  entryComponents: [DialogWindowComponent],
   imports: [
     BrowserModule,
     NoopAnimationsModule,
@@ -26,7 +30,8 @@ import { ToUpperCaseDirective } from './registration-form/upperCase.directive';
     MatButtonModule,
     MatSelectModule,
     MatIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]
