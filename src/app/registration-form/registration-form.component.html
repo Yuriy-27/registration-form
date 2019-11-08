@@ -1,7 +1,9 @@
-<div class="form-container col container d-flex">
+<div class="main-container col container d-flex">
     <div class="aside col-2 d-flex flex-column">
         <div class="container-top d-flex justify-content-center">
-            <div class="arrow d-flex justify-content-center align-items-center">
+            <div (click)='changeStep(-1)' class="arrow d-flex justify-content-center align-items-center"
+            [ngClass]="{'d-none': currentStep === steps[0],
+                        'd-flex': currentStep != steps[0]}">
                 <i class="arrow-up fas fa-arrow-up"></i>
             </div>
         </div>
@@ -12,87 +14,186 @@
             <div class="circle"></div>
         </div>
         <div class="container-bottom d-flex justify-content-center">
-            <div class="arrow d-flex justify-content-center align-items-center">
+            <div (click)='changeStep(+1)' class="arrow justify-content-center align-items-center"
+            [ngClass]="{'d-none': currentStep === steps[steps.length-1],
+                        'd-flex': currentStep != steps[steps.length-1]}">
                 <i class="arrow-up fas fa-arrow-down"></i>
             </div>
         </div>
     </div>
-    <form action="" class="form col-10 d-flex flex-column">
-        <div class="form-title col-12 d-flex">
-            <p>Basic Details</p>
-        </div>
-        <div class="separator"></div>
-        <div class="form-fields col-12 d-flex flex-wrap align-items-center">
-            <div class="input-section col-12 d-flex justify-content-between">
-                <div class="col-6 field-name">
-                    <mat-form-field class="col-12">
-                        <input matInput placeholder="First name" value="">
-                    </mat-form-field>
+
+    <form [formGroup]="registrationForm" class="form col-10 d-flex flex-wrap">
+
+        <ng-container [ngSwitch]="currentStep.id">
+
+            <div *ngSwitchCase="1" class="form-container col-12 d-flex flex-column">
+                <div class="form-title col-12 d-flex">
+                    <p>{{currentStep.title}}</p>
                 </div>
-                <div class="col-6 field-name">
-                    <mat-form-field class="col-12">
-                        <input matInput placeholder="Last name" value="">
-                    </mat-form-field>
+                <div class="separator"></div>
+                <div class="form-fields col-12 d-flex flex-wrap align-items-center">
+                    <div class="input-section col-12 d-flex justify-content-between">
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="First name" formControlName='firstName'>
+                                <mat-icon matSuffix *ngIf="registrationForm.controls.firstName.valid" class="material-icons">done</mat-icon>
+                                <mat-error *ngIf="registrationForm.controls.firstName.invalid && (registrationForm.controls.firstName.touched || registrationForm.controls.firstName.dirty)">
+                                {{getFirstNameErrors()}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="Last name" formControlName='lastName'>
+                                <mat-icon matSuffix *ngIf="registrationForm.controls.lastName.valid" class="material-icons">done</mat-icon>
+                                <mat-error *ngIf="registrationForm.controls.lastName.invalid && (registrationForm.controls.lastName.touched || registrationForm.controls.lastName.dirty)">{{getLastNameErrors()}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="input-section col-12 d-flex justify-content-between">
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="Email ID" formControlName='email'>
+                                <mat-icon matSuffix *ngIf="registrationForm.controls.email.valid" class="material-icons">done</mat-icon>
+                                <mat-error *ngIf="registrationForm.controls.email.invalid && (registrationForm.controls.email.touched || registrationForm.controls.email.dirty)">{{getEmailErrors()}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="Your User ID" formControlName='userId'>
+                                <mat-icon matSuffix *ngIf="registrationForm.controls.userId.invalid" class="material-icons lock">lock</mat-icon>
+                                <mat-icon matSuffix *ngIf="registrationForm.controls.userId.valid" class="material-icons">done</mat-icon>
+                                <mat-error *ngIf="registrationForm.controls.userId.invalid && (registrationForm.controls.userId.touched || registrationForm.controls.userId.dirty)">{{getUserIdErrors()}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="input-section col-12 d-flex justify-content-between">
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <mat-label>Country</mat-label>
+                                <mat-select formControlName='country'>
+                                    <mat-option *ngFor="let country of countries" [value]="country.id">{{country.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div class="field-name location col-6 d-flex justify-content-between">
+                            <mat-form-field class="col-6">
+                                <mat-label>State</mat-label>
+                                <mat-select formControlName='state'>
+                                    <mat-option *ngFor="let state of states">{{state.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field class="col-6">
+                                <mat-label>City</mat-label>
+                                <mat-select formControlName='city'>
+                                    <mat-option *ngFor="let city of cities">{{city.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="input-section col-12 d-flex justify-content-between">
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="Phone Number" formControlName='phone'>
+                                <mat-icon matSuffix *ngIf="registrationForm.controls.phone.valid" class="material-icons">done</mat-icon>
+                                <mat-error *ngIf="registrationForm.controls.phone.invalid && (registrationForm.controls.phone.touched || registrationForm.controls.phone.dirty)">{{getPhoneErrors()}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="Reference Code" formControlName='refCode' maxlength="10" appToUpperCase>
+                                <mat-icon matSuffix *ngIf="registrationForm.controls.refCode.value && registrationForm.controls.refCode.valid" class="material-icons">done</mat-icon>
+                                <mat-error *ngIf="registrationForm.controls.refCode.invalid && (registrationForm.controls.refCode.touched || registrationForm.controls.refCode.dirty)">{{getRefCodeErrors()}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="separator"></div>
+                <div class="form-controls col-12 d-flex align-items-center justify-content-between">
+                    <button type="button" mat-button class="reset-btn" (click)="registrationForm.reset()">Reset All</button>
+                    <button type="button" mat-raised-button color="primary" (click)="changeStep(+1)">Continue</button>
                 </div>
             </div>
-            <div class="input-section col-12 d-flex justify-content-between">
-                <div class="col-6 field-name">
-                    <mat-form-field class="col-12">
-                        <input matInput placeholder="Email ID" value="">
-                        <mat-icon matSuffix class="material-icons">done</mat-icon>
-                    </mat-form-field>
+
+
+            <div *ngSwitchCase="2" class="form-container col-12 d-flex flex-column">
+                <div class="form-title col-12 d-flex">
+                    <p>{{currentStep.title}}</p>
                 </div>
-                <div class="col-6 field-name">
-                    <mat-form-field class="col-12">
-                        <input matInput placeholder="Your User ID" value="">
-                        <mat-icon matSuffix class="material-icons">lock</mat-icon>
-                    </mat-form-field>
+                <div class="separator"></div>
+                <div class="form-fields col-12 d-flex flex-wrap align-items-top">
+                    <div class="input-section col-12 d-flex justify-content-between">
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="First field" value="">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="Second field" value="">
+                            </mat-form-field>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="input-section col-12 d-flex justify-content-between">
-                <div class="col-6 field-name">
-                    <mat-form-field class="col-12">
-                        <mat-label>Country</mat-label>
-                        <mat-select>
-                            <mat-option value=""></mat-option>
-                            <mat-option value="India">India</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-                <div class="field-name location col-6 d-flex justify-content-between">
-                    <mat-form-field class="col-6">
-                        <mat-label>State</mat-label>
-                        <mat-select>
-                            <mat-option value=""></mat-option>
-                            <mat-option value="Maharashtra">Maharashtra</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <mat-form-field class="col-6">
-                        <mat-label>City</mat-label>
-                        <mat-select>
-                            <mat-option value=""></mat-option>
-                            <mat-option value="Pune">Pune</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                <div class="separator"></div>
+                <div class="form-controls col-12 d-flex align-items-center justify-content-between">
+                    <button type="button" mat-button class="reset-btn">Reset All</button>
+                    <button type="button" mat-raised-button color="primary" (click)="changeStep(+1)">Continue</button>
                 </div>
             </div>
-            <div class="input-section col-12 d-flex justify-content-between">
-                <div class="col-6 field-name">
-                    <mat-form-field class="col-12">
-                        <input matInput placeholder="Phone Number" value="">
-                    </mat-form-field>
+
+            <div *ngSwitchCase="3" class="form-container col-12 d-flex flex-column">
+                <div class="form-title col-12 d-flex">
+                    <p>{{currentStep.title}}</p>
                 </div>
-                <div class="col-6 field-name">
-                    <mat-form-field class="col-12">
-                        <input matInput placeholder="Reference Code" value="">
-                    </mat-form-field>
+                <div class="separator"></div>
+                <div class="form-fields col-12 d-flex flex-wrap align-items-top">
+                    <div class="input-section col-12 d-flex justify-content-between">
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="First field" value="">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="Second field" value="">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="separator"></div>
+                <div class="form-controls col-12 d-flex align-items-center justify-content-between">
+                    <button type="button" mat-button class="reset-btn">Reset All</button>
+                    <button type="button" mat-raised-button color="primary" (click)="changeStep(+1)">Continue</button>
                 </div>
             </div>
-        </div>
-        <div class="separator"></div>
-        <div class="form-controls col-12 d-flex align-items-center justify-content-between">
-            <button type="button" mat-button class="reset-btn">Reset All</button>
-            <button type="button" mat-raised-button color="primary">Continue</button>
-        </div>
+
+            <div *ngSwitchCase="4" class="form-container col-12 d-flex flex-column">
+                <div class="form-title col-12 d-flex">
+                    <p>{{currentStep.title}}</p>
+                </div>
+                <div class="separator"></div>
+                <div class="form-fields col-12 d-flex flex-wrap align-items-top">
+                    <div class="input-section col-12 d-flex justify-content-between">
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="First field" value="">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6 field-name">
+                            <mat-form-field class="col-12">
+                                <input matInput placeholder="Second field" value="">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="separator"></div>
+                <div class="form-controls col-12 d-flex align-items-center justify-content-between">
+                    <button type="button" mat-button class="reset-btn">Reset All</button>
+                    <button type="button" class="finish-btn" mat-raised-button color="primary">Finish</button>
+                </div>
+            </div>
+
+        </ng-container>
+        
     </form>
 </div>
