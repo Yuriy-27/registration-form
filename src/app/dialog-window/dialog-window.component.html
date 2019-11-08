@@ -1,0 +1,6 @@
+<h2 mat-dialog-title>Please, confirm the action</h2>
+<mat-dialog-content>Are you sure you want to clear all form fields?</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Reset All</button>
+</mat-dialog-actions>
