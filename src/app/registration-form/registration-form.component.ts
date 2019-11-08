@@ -49,6 +49,21 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  private buildForm() {
+    this.registrationForm = this.fb.group({
+      firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern('[а-яёіїА-ЯЁІЇ]+')]],
+      lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern('[а-яёіїА-ЯЁІЇ]+')]],
+      // tslint:disable-next-line:max-line-length
+      email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,4}'), Validators.maxLength(50)]],
+      userId: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30), Validators.pattern('[a-zA-Z_]+')]],
+      country: [''],
+      state: [''],
+      city: [''],
+      phone: ['', [Validators.required, Validators.pattern(/^380\d{2} \d{3}-\d{2}-\d{2}$/)]],
+      refCode: ['', Validators.pattern('[a-zA-Z0-9]{10}')]
+    });
+  }
+
   getFirstNameErrors() {
     return this.registrationForm.controls.firstName.hasError('minlength') ? 'Enter more than 1 characters' :
       this.registrationForm.controls.firstName.hasError('maxlength') ? 'Enter less than 50 characters' :
@@ -92,29 +107,29 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
       '';
   }
 
-  private buildForm() {
-    this.registrationForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern('[а-яёіїА-ЯЁІЇ]+')]],
-      lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50), Validators.pattern('[а-яёіїА-ЯЁІЇ]+')]],
-      // tslint:disable-next-line:max-line-length
-      email: ['', [Validators.required, Validators.pattern('[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,4}'), Validators.maxLength(50)]],
-      userId: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30), Validators.pattern('[a-zA-Z_]+')]],
-      country: [''],
-      state: [''],
-      city: [''],
-      phone: ['', [Validators.required, Validators.pattern(/^380\d{2} \d{3}-\d{2}-\d{2}$/)]],
-      refCode: ['', Validators.pattern('[a-zA-Z0-9]{10}')]
-    });
-  }
-
   private initFormSubscriptions() {
     this.countryControlSubscription = this.registrationForm.controls.country.valueChanges.subscribe((selectedCountry) => {
+      console.log(selectedCountry);
       if (selectedCountry == null) {
         this.registrationForm.controls.state.setValue(null);
       } else {
-        this.states = this.countriesService.getStates(selectedCountry.id);
+        this.states = this.countriesService.getStates(selectedCountry);
+        console.log(this.states);
       }
     });
+
+    this.stateControlSubscription = this.registrationForm.controls.state.valueChanges.subscribe((selectedState) => {
+      console.log(selectedState);
+      const countryId = this.registrationForm.controls.country.value;
+      console.log(countryId);
+      if (selectedState == null && countryId == null) {
+        this.registrationForm.controls.city.setValue(null);
+      } else {
+        this.cities = this.countriesService.getCities(countryId, selectedState);
+        console.log(this.cities);
+      }
+    });
+
 
     // stateControlSubscription: Subscription;
 

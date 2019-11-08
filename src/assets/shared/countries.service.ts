@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { state } from '@angular/animations';
 
 // export interface UserLocation {
 //   userCountry: string;
@@ -110,9 +111,32 @@ export class CountriesService {
     }
 
     getStates(countryId: number): ReadonlyArray<State> {
-        const country: Country = this.countries.find((countryId) => countryId.id );
+        const country: Country = this.countries.find(selectedCountry => selectedCountry.id === countryId );
         if (country != null) {
             return country.states;
+        } else {
+            return [];
         }
+    }
+
+    getCities(countryId: number, stateId: number): ReadonlyArray<City> {
+
+        const states: ReadonlyArray<State> = this.getStates(countryId);
+        const currentState: State = states.find(selectedState => selectedState.id === stateId);
+        if (currentState != null) {
+            return currentState.cities;
+        } else {
+            return [];
+        }
+
+        // const states: ReadonlyArray<State> = this.getStates(countryId);
+        // const stat: State = states.find(selectedState => selectedState.id === stateId);
+        // if ( state != null) {
+        //     return state;
+        // }
+        // const state: State = this.getStates(countryId).find(selectedState => selectedState.id === stateId);
+        // if (state != null) {
+        //     return state.cities;
+        // }
     }
 }
