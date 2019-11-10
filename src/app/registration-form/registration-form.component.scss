@@ -132,6 +132,7 @@
         background-color: #ffffff;
         border-radius: 50%;
         margin: 3px;
+        transition: width .2s linear, height .2s linear, border-radius .2s linear;
         
       }
       .change {
@@ -197,6 +198,7 @@
         padding: 0;
         height: 80px;
         color: #333333;
+        font-family: Arial;
 
         .field-name {
           font-size: 20px;
