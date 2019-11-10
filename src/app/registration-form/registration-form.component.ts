@@ -78,7 +78,13 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
       state: ['', Validators.required],
       city: ['', Validators.required],
       phone: ['', [Validators.required, Validators.pattern(/^380\d{2} \d{3}-\d{2}-\d{2}$/)]],
-      refCode: ['', Validators.pattern('[a-zA-Z0-9]{10}')]
+      refCode: ['', Validators.pattern('[a-zA-Z0-9]{10}')],
+      language: [''],
+      languageLevel: [''],
+      sport: [],
+      color: [],
+      age: [''],
+      password: ['']
     });
   }
 
@@ -127,12 +133,10 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
 
   private initFormSubscriptions() {
     this.countryControlSubscription = this.registrationForm.controls.country.valueChanges.subscribe((selectedCountry) => {
-      console.log(selectedCountry);
       if (selectedCountry == null) {
         this.registrationForm.controls.state.setValue(null);
       } else {
         this.states = this.countriesService.getStates(selectedCountry);
-        console.log(this.states);
       }
     });
 
@@ -156,6 +160,12 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
     }
     if (param === +1 && index === this.steps.length - 1) {
       this.currentStep = this.steps[this.steps.length - 1];
+    }
+  }
+
+  login() {
+    if (this.registrationForm.valid) {
+      console.log(this.registrationForm.value);
     }
   }
 }

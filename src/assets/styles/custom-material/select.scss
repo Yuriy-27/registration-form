@@ -3,6 +3,9 @@
         border: none !important;
         font-size: 20px;
         margin: -.4rem 1.0rem 1.0rem !important;
+        @media (max-width: 767.98px) {
+            font-size: 12px;
+          }
 
         @extend .fas;
         @extend .fa-chevron-down;

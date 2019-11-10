@@ -1,21 +1,63 @@
 .main-container {
   $height: 600px;
+  $primary: #48a5ea;
+  $back-color: #f0f0f0;
   padding: 0;
   width: 1000px;
   height: $height;
   top: calc((100% - #{$height}) / 2);
   margin-bottom: 60px;
   border-radius: 8px;
-  box-shadow: 0 0 60px 0 rgba(0, 0, 0, 0.1);
 
-  @media (max-height: 630px) {
+  @media (max-width: 1200px) {
+    width: 900px;
+  }
+  @media (max-width: 1050px) {
+    width: 750px;
+  }
+  @media (max-width: 900px) {
+    width: 700px;
+  }
+  @media (max-width: 767.98px) {
+    width: 600px;
+  }
+  @media (max-height: 650px) {
     top: 30px;
+    width: 550px;
+  }
+  // @media (max-height: 550px) {
+  //   width: 250px;
+  // }
+
+  &:before {
+    display: block;
+    margin-left: -50px;
+    border-radius: 12px 0 0 12px;
+    content: "";
+    width: 50px;
+    height: 24px;
+    background-color: $primary;
+    @media (max-width: 900px) {
+      display: none;
+    }
+  }
+  .first {
+    margin-top: 48px;
+    margin-left: -16.5px;
+    border-radius: 12px 0 0 12px;
+    width: 16.5px;
+    height: 24px;
+    background-color: $primary;
+    @media (max-width: 900px) {
+      display: none;
+    }
   }
 
   .aside {
-    background-color: #48a5ea;
+    padding: 0;
+    background-color: $primary;
     height: 600px;
-    
+
     .arrow {
       margin-top: 40px;
       padding: 10px;
@@ -24,55 +66,95 @@
       color: #ffffff;
       border: 2px solid #ffffff;
       border-radius: 50%;
-      transition: color .2s linear, border .2s linear;
+      transition: color 0.2s linear, border 0.2s linear;
+      @media (max-width: 767.98px) {
+        margin-top: 20px;
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+      }
       &:hover {
         color: lightgrey;
         border: 2px solid lightgrey;
         cursor: pointer;
       }
-      &:focus {
-        border: 5px solid red;
-      }
-      
     }
     .container-top {
       width: 100%;
       height: 100%;
       max-height: 96px;
-      // outline: 1px solid red;
+      text-align: center;
       padding: 0;
+
+      &:before {
+        display: block;
+        content: "";
+        margin-top: 24px;
+        border-radius: 0 12px 12px 0;
+        width: 16px;
+        height: 24px;
+        background-color: $back-color;
+        @media (max-width: 900px) {
+          display: none;
+        }
+      }
+      .figure {
+        position: absolute;
+        margin-top: 72px;
+        border-radius: 0 12px 12px 0;
+        width: 12px;
+        height: 24px;
+        background-color: $back-color;
+        @media (max-width: 900px) {
+          display: none;
+        }
+      }
+      .arrow-top {
+        width: 100%;
+        height: 100%;
+        margin-right: 16px;
+        padding: 0;
+        @media (max-width: 900px) {
+          margin-right: 0;
+        }
+        @media (max-width: 767.98px) {
+          max-height: 50px;
+        }
+      }
     }
     .container-center {
       padding: 0;
       height: 100%;
       max-height: 380px;
-      // outline: 1px solid blue;
       .circle {
         width: 6px;
         height: 6px;
         background-color: #ffffff;
         border-radius: 50%;
         margin: 3px;
-        &:hover {
-          width: 12px;
-          height: 18px;
-          border-radius: 6px / 10px;
-        }
+        
+      }
+      .change {
+        width: 10px;
+        height: 16px;
+        border-radius: 6px / 10px;
       }
     }
     .container-bottom {
       height: 100%;
       max-height: 120px;
-      // outline: 1px solid red;
       padding: 0;
+      @media (max-width: 767.98px) {
+        max-height: 70px;
+        margin-top: 45px;
+      }
     }
   }
 
   .form {
-    // padding: 0 20px;
-    // height: 600px;
     background-color: #ffffff;
     overflow-y: auto;
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.1);
 
     .form-container {
       height: 600px;
@@ -83,7 +165,6 @@
       width: 100%;
       height: 100%;
       max-height: 96px;
-      // outline: 1px solid red;
       padding: 0;
       p {
         width: 100%;
@@ -111,14 +192,13 @@
       padding: 0;
       height: 100%;
       max-height: 380px;
-      // outline: 1px solid blue;
 
       .input-section {
         padding: 0;
         height: 80px;
         color: #333333;
+
         .field-name {
-          // outline: 1px solid red;
           font-size: 20px;
           padding: 0;
           mat-form-field {
@@ -151,7 +231,6 @@
       width: 100%;
       height: 100%;
       max-height: 120px;
-      // outline: 1px solid red;
       padding: 0;
 
       button:focus {
@@ -164,9 +243,67 @@
       .reset-btn {
         margin-left: -16px;
         color: #9e9e9e;
-        transition: color .2s linear;
+        transition: color 0.2s linear;
         &:hover {
-          color:  #48a5ea;
+          color: $primary;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767.98px) {
+  .main-container {
+    .form {
+      .form-title {
+        max-height: 50px;
+        p {
+          margin-top: 10px;
+          font-size: 15px;
+        }
+      }
+      .form-container {
+        padding: 0;
+        .form-fields {
+          max-height: 450px;
+          .input-section {
+            padding: 0;
+            height: 70px;
+            color: #333333;
+            justify-content: center;
+
+            .field-name {
+              font-size: 12px;
+              padding: 0;
+              mat-form-field {
+                padding: 0;
+              }
+              &:nth-child(even) {
+                padding-left: 0;
+              }
+              &:nth-child(odd) {
+                padding-right: 0;
+              }
+            }
+            .location mat-form-field:nth-child(even) {
+              padding-left: 20px;
+            }
+            .material-icons {
+              font-size: 12px;
+            }
+            #mySelectId {
+              font-size: 20px;
+            }
+          }
+        }
+        .form-controls {
+          margin-top: 20px;
+          max-height: 70px;
+
+          .reset-btn {
+            margin-left: -16px;
+            font-size: 12px;
+          }
         }
       }
     }
